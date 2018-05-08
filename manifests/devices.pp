@@ -55,12 +55,18 @@ class puppet_device::devices(Hash $devices = {}) {
     puppet_device {$title:
       name           => $device['name'],
       type           => $device['type'],
-      url            => $device['url'],
       debug          => $device['debug'],
       run_interval   => $device['run_interval'],
       run_via_exec   => $device['run_via_exec'],
       include_module => $device['include_module'],
     }
-  }
 
+    if $device['url'] {
+      Puppet_device[$title] { url => $device['url'] }
+    }
+
+    if $device['credentials'] {
+      Puppet_device[$title] { credentials => $device['credentials'] }
+    }
+  }
 }
